@@ -182,9 +182,9 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_SUBJECT_PREFIX = "[cddn24] "
-SERVER_EMAIL = "cddn24@cd-di-natale-24.dev"
-DEFAULT_FROM_EMAIL = "cddn24@cd-di-natale-24.dev"
+EMAIL_SUBJECT_PREFIX = ""
+SERVER_EMAIL = "gli-elfi@nerdsopolis.net"
+DEFAULT_FROM_EMAIL = "gli-elfi@nerdsopolis.net"
 # This custom backend allows composing email messages in MJML
 EMAIL_BACKEND = "mjml_email_backend.MJMLEmailBackend"
 
