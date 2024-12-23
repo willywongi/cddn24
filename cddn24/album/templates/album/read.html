@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+
+{% block page_scripts %}
+	<script type="module">
+  const player = document.getElementById("player-element");
+  document.getElementById("album-tracks-container").addEventListener("click", async evt => {
+    const target = evt.target.closest("[data-audio-src]");
+    if (target) {
+      player.src = target.dataset.audioSrc;
+      player.play();
+    }
+  })
+</script>
+{% endblock %}
+
+{% block main %}
+  <article class="card border-dark" style="width: 640px; max-width: 640px">
+    <div class="card-body d-flex gap-1">
+      <div>
+        <img src="{{ cover_url }}" alt="{{ seed }}" class="float-start" style="max-width: 192px; aspect-ratio: 1/1">
+        <p class="text-muted">
+          CD di Natale #{{ seed }}
+        </p>
+      </div>
+      <div>
+
+        <div class="accordion" id="album-tracks-container">
+          {% for track in tracks %}
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button{% if not forloop.first %} collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#album-track-{{ track.no }}"
+                      {% if forloop.first %}aria-expanded="true"{% endif %}
+                      aria-controls="album-track-{{ track.no }}"
+                      data-audio-src="{{ track.url }}">
+                {{ track.no }} - {{ track.title }}
+              </button>
+            </h2>
+            <div id="album-track-{{ track.no }}" class="accordion-collapse collapse{% if forloop.first %} show{% endif %}" data-bs-parent="#album-tracks-container">
+              <div class="accordion-body">
+                <em>Creato con {{ track.tool }}</em>. <strong>Prompt: </strong>{{ track.prompt }}.
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <audio id="player-element" controls src="{{ tracks.0.url }}" class="mt-2"></audio>
+      </div>
+    </div>
+  </article>
+{% endblock %}

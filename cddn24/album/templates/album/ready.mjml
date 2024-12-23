@@ -1,0 +1,26 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Il tuo CD di Natale 2024 è pronto!</mj-preview>
+  </mj-head>
+  <mj-body background-color="#EFEFEF">
+    <mj-section background-color="#FFFFFF">
+      <mj-column>
+        <mj-text font-size="22px" font-weight="900" line-height="5px">
+          Ciao!
+        </mj-text>
+        <mj-text>
+          Il tuo CD di Natale è pronto. Puoi ascoltarlo al link unico che gli elfi hanno riservato per te:
+        </mj-text>
+        <mj-button href="{{ play_url }}" background-color="#686dc3" color="#FFFFFF" border-radius="25px" font-weight="700" font-size="15px">
+          Il CD di Natale #{{ seed }}
+        </mj-button>
+        <mj-text>
+          Buon ascolto, buone feste e ci sentiamo con l'anno nuovo!
+        </mj-text>
+        <mj-text color="#222" font-weight="900" line-height="5px">
+          Il team di Nerdsopolis
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -1,0 +1,36 @@
+services:
+  backend:
+    build:
+      context: cddn24
+      target: backend
+      args:
+        BACKEND_CONTAINER_PORT: $BACKEND_CONTAINER_PORT
+    volumes:
+      - ./cddn24:/cddn24
+    entrypoint: python manage.py
+    command: runserver 0.0.0.0:$BACKEND_CONTAINER_PORT
+
+  worker:
+    build:
+      context: cddn24
+      target: worker
+    volumes:
+      - ./cddn24:/cddn24
+    command: rundramatiq --reload --processes 1 --threads 1 --reload-use-polling
+
+  scheduler:
+    build:
+      context: scheduler
+
+  bootstrap:
+    image: willywongi/dart-sass
+    volumes:
+      - ./bootstrap/src:/bootstrap/src
+      - ./cddn24/static/style:/bootstrap/dist
+    command: --watch /bootstrap/src/bootstrap.scss /bootstrap/dist/bootstrap.css
+
+  mailserver:
+    container_name: cddn24-mailserver
+    image: marlonb/mailcrab:latest
+    ports:
+      - "1080:1080"

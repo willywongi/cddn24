@@ -1,0 +1,25 @@
+{$CADDY_HOSTNAME} {
+  bind 0.0.0.0
+
+  handle_path /static/* {
+      root * /var/www/static
+      file_server
+  }
+
+  handle_path /media/* {
+      root * /var/www/media
+      file_server
+  }
+
+  handle {
+    reverse_proxy {$BACKEND_CONTAINER_NAME}:8000 {
+        trusted_proxies private_ranges
+    }
+  }
+
+  log {
+    output file /var/log/caddy/caddy.log {
+      roll_size 10MiB
+    }
+  }
+}

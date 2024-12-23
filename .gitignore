@@ -1,0 +1,16 @@
+# MacOS files
+**/.DS_Store
+# Python
+**/*.pyc
+
+# Environment configuration files
+/*.env
+
+# Python virtual venv folder
+.venv/
+
+# Operational files
+log/*
+
+# Env docker compose file
+compose.override.yaml

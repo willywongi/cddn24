@@ -1,0 +1,51 @@
+services:
+  message_broker:
+    container_name: $MESSAGE_BROKER_CONTAINER_NAME
+    volumes:
+      - mb_data:/data
+    image: redis:7
+    restart: unless-stopped
+
+  backend:
+    env_file: 
+      - .env
+      - service.env
+    container_name: $BACKEND_CONTAINER_NAME
+    image: willywongi/cd-di-natale-24:latest
+    volumes:
+      - ./log:/${LOG_PATH}
+      - static:/cddn24-${STATIC_PATH}
+      - media:/cddn24-${MEDIA_PATH}
+      - db_data:/var/lib/sqlite/data
+    ports:
+      - 8000:$BACKEND_CONTAINER_PORT
+    restart: unless-stopped
+    command: gunicorn --bind ":${BACKEND_CONTAINER_PORT}" --workers 3 --timeout 120 cddn24.wsgi
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  worker:
+    env_file: 
+      - .env
+      - service.env
+    container_name: $WORKER_CONTAINER_NAME
+    image: willywongi/cd-di-natale-24-worker:latest
+    volumes:
+      - ./log:/${LOG_PATH}
+      - media:/cddn24-${MEDIA_PATH}
+      - db_data:/var/lib/sqlite/data
+    command: rundramatiq
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  scheduler:
+    env_file:
+      - .env
+    image: willywongi/cd-di-natale-24-scheduler:latest
+
+volumes:
+  media:
+  static:
+  db_data:
+  mb_data:

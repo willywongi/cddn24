@@ -1,0 +1,1 @@
+0 5 * * * python3 /scheduler/send_task.py delete_old_tasks

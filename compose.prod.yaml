@@ -1,0 +1,33 @@
+# Use this Compose file to run the application.
+services:
+  frontend:
+    env_file:
+      - .env
+    image: willywongi/cd-di-natale-24-frontend:latest
+    volumes:
+      - ./log:/var/log/caddy
+      - static:/var/www/${STATIC_PATH}
+      - media:/var/www/${MEDIA_PATH}
+    expose:
+      - "80"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cd-di-natale-24-http.entrypoints=http"
+      - "traefik.http.routers.cd-di-natale-24-http.middlewares=we-fe-redirect"
+      - "traefik.http.routers.cd-di-natale-24-http.rule=Host(`${HOSTNAME}`)"
+      - "traefik.http.routers.cd-di-natale-24-https.entrypoints=https"
+      - "traefik.http.routers.cd-di-natale-24-https.tls=true"
+      - "traefik.http.routers.cd-di-natale-24-https.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.cd-di-natale-24-https.rule=Host(`${HOSTNAME}`)"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+volumes:
+  static:
+  media:
+
+networks:
+  default:
+    name: wef_edge
+    external: true
+

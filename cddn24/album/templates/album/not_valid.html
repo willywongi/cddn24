@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block main %}
+  <article class="card border-dark" style="max-width: 640px">
+    <div class="card-body">
+      <h1>Ho-ho-...oh no.</h1>
+      <p>
+        In qualche modo il link che hai usato non è valido. Forse il link è scaduto, o forse Babbo Natale ha qualcosa
+        nel dossier su di te di poco lusinghiero. Riprova da <a href="{% url "claim" %}">da capo</a>.
+      </p>
+    </div>
+  </article>
+{% endblock %}

@@ -1,0 +1,12 @@
+Django==5.1.4
+gunicorn==20.1.0
+dramatiq[redis, watch]==1.16.0
+django_dramatiq==0.11.6
+nanoid==2.0.0
+django-bootstrap5==24.2
+rollbar~=1.0
+replicate~=1.0
+azure-ai-inference
+mrml==0.1.15
+elevenlabs
+pydub
