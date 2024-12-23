@@ -195,7 +195,7 @@ def build_story(seed: int, track_no: int, title="Gianni e le prugne della Patago
                 backing_track = backing_track[:len(voice_track) + 5000]
             story_track = (backing_track - 4.5).overlay(voice_track, position=2500).fade_out(2500)
             story_track.export(story_track_path, format="mp3")
-            voice_track.unlink(missing_ok=True)
+            story_voice_path.unlink(missing_ok=True)
             logger.info("[%s] Track %s (story) created", seed, track_no)
     except Exception as e:
         logger.exception("[%s] Track %s (story) failed", seed, track_no)
