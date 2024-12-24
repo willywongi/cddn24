@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-
-
 {% block page_scripts %}
 	<script type="module">
   const player = document.getElementById("player-element");
@@ -19,7 +17,10 @@
   <article class="card border-dark" style="width: 640px; max-width: 640px">
     <div class="card-body d-flex gap-1">
       <div>
-        <img src="{{ cover_url }}" alt="{{ seed }}" class="float-start" style="max-width: 192px; aspect-ratio: 1/1">
+        <a href="{{ cover_url }}" target="_blank"
+                data-bs-toggle="modal" data-bs-target="#cover-modal">
+          <img src="{{ cover_url }}" alt="{{ seed }}" class="float-start" style="max-width: 192px; aspect-ratio: 1/1">
+        </a>
         <p class="text-muted">
           CD di Natale #{{ seed }}
         </p>
@@ -49,4 +50,33 @@
       </div>
     </div>
   </article>
+{% endblock %}
+
+{% block modals %}
+<!-- Vertically centered modal -->
+  <div id="cover-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          CD di Natale #{{ seed }}
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center">
+          <img id="lightboxImage" src="{{ cover_url }}" style="max-height: 100%" alt="Cover CD di Natale #{{ seed }}.">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="lyrics-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+
+        </div>
+        <div class="modal-body">
+
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
