@@ -99,14 +99,13 @@ def build_track(seed: int, track_no: int, title: str, prompt: str) -> Optional[E
     try:
         logger.info("[%s] Track %s started", seed, track_no)
         output = replicate.run(
-            "charlesmccarthy/musicgen:d51032695d2c2ec28031e9e30b793b1a8f61efe367af46027a211c2954a6ad44",
+            "meta/musicgen:671ac645ce5e552cc63a54a2bbff63fcf798043055d2dac5fc9e36a837eedcfb",
             input={
                 "prompt": prompt,
                 "duration": 60,
                 "continuation": False,
-                "model_version": "large",
+                "model_version": "stereo-large",
                 "output_format": "mp3",
-                "multi_band_diffusion": True,
                 "seed": album.seed
             }
         )
