@@ -5309,6 +5309,7 @@ progress {
 
 .display-1 {
   font-size: calc(1.625rem + 4.5vw);
+  font-family: "Aclonica", sans-serif;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -5320,6 +5321,7 @@ progress {
 
 .display-2 {
   font-size: calc(1.575rem + 3.9vw);
+  font-family: "Aclonica", sans-serif;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -5331,6 +5333,7 @@ progress {
 
 .display-3 {
   font-size: calc(1.525rem + 3.3vw);
+  font-family: "Aclonica", sans-serif;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -5342,6 +5345,7 @@ progress {
 
 .display-4 {
   font-size: calc(1.475rem + 2.7vw);
+  font-family: "Aclonica", sans-serif;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -5353,6 +5357,7 @@ progress {
 
 .display-5 {
   font-size: calc(1.425rem + 2.1vw);
+  font-family: "Aclonica", sans-serif;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -5364,6 +5369,7 @@ progress {
 
 .display-6 {
   font-size: calc(1.375rem + 1.5vw);
+  font-family: "Aclonica", sans-serif;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -10751,6 +10757,10 @@ audio a {
 }
 audio .text-muted {
   color: rgba(255, 255, 255, 0.7) !important;
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+  font-family: "Aclonica", sans-serif;
 }
 
 /*# sourceMappingURL=bootstrap.css.map */

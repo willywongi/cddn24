@@ -33,6 +33,7 @@ def claim(request):
         "form": form,
         "total": Album.objects.count(),
         "claimed": Album.objects.filter(request_by__isnull=False).count(),
+        "available": Album.objects.filter(request_by__isnull=True).count(),
         "is_available": Album.objects.filter(request_by__isnull=True).exists()
     }
     return TemplateResponse(request, "album/claim.html", context=context)
@@ -81,6 +82,7 @@ def read(request, signature):
     ]
 
     context = {
+        "has_error": album.error is not None,
         "seed": album.seed,
         "signature": album.signature,
         "cover_url": f"{settings.MEDIA_URL}/{album.path.relative_to(settings.MEDIA_ROOT)}/00_cover.png",

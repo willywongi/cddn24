@@ -6,34 +6,39 @@
     <div class="card-body">
       <h1>CD di Natale 2024</h1>
       <p>
-        Grazie ai <strike>formidabili strumenti innovativi di AI generativa</strike>, potete richiedere la vostra copia
-        personalizzata del <strong>CD di Natale 2024</strong>! Basterà inserire il vostro indirizzo mail qui sotto e,
-        una volta confermata la richiesta per evitare gli spam-bot, <strike>una serie di slop-bot</strike> la compagnia
-        di elfi di Babbo Natale creerà per te un CD di Natale <strong>unico</strong>.
+        Grazie <strike>ai formidabili strumenti innovativi di AI generativa</strike> alla magia del Natale potete
+        richiedere la vostra copia personalizzata del <strong>CD di Natale 2024</strong>! Basterà inserire il vostro
+        indirizzo mail qui sotto e, una volta confermata la richiesta per evitare gli spam-bot, <strike>una serie di
+        slop-bot</strike> la compagnia di elfi di Babbo Natale creerà per te un CD di Natale <strong>unico</strong>.
       </p>
       <p>
-        Ogni album è marcato da un numero, chiamato <em>seed</em> (seme), usato per creare un solo irripetibile album con
-        5 tracce, una copertina e un racconto.
-      </p>
-      <p>
-        Sono stati previsti {{ total }} CD di Natale 2024 unici; di questi, ne sono stati raccolti {{ claimed }}.
+        Ogni album è marcato da un numero, chiamato <em>seed</em> (seme), usato per creare un solo irripetibile album
+        con
+        <strong>5 tracce, una copertina e un racconto</strong>.
       </p>
       {% if is_available %}
-      <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <div class="d-flex justify-content-center">
-          <button type="submit" class="btn btn-primary">
-            Raccogli il tuo album
-          </button>
+        <form method="post">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+              Raccogli il tuo album
+            </button>
+          </div>
+        </form>
+        <div class="d-flex gap-1 py-1 align-items-center">
+          <figure class="display-5 nowrap m-0">
+            {{ available }}/{{ total }}
+          </figure>
+          <p class="m-0"></p>
+          Sono stati raccolti {{ claimed }} CD di Natale 2024 unici su {{ total }} previsti; ne rimangono {{ available }}.
         </div>
-      </form>
       {% else %}
-      <h3 class="text-warning">Sold out!</h3>
-      <p>
-        Tutti gli album sono stati raccolti! Gli elfi sono stremati: potrebbero riprendersi con una dose di zabaione,
-        ma non garantiamo nulla. A presto! 👋
-      </p>
+        <h3 class="text-warning">Sold out!</h3>
+        <p>
+          Tutti gli album sono stati raccolti! Gli elfi sono stremati: potrebbero riprendersi con una dose di zabaione,
+          ma non garantiamo nulla. A presto! 👋
+        </p>
       {% endif %}
     </div>
   </article>

@@ -6,6 +6,7 @@
 
 // 2. Include any default variable overrides here
 @import "quartz/variables";
+$display-font-family: 'Aclonica', sans-serif;
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "bootstrap/variables";
@@ -43,3 +44,7 @@
 
 // 8. Add additional custom code here
 @import "quartz/bootswatch";
+
+h1, h2, h3 {
+  font-family: $display-font-family;
+}
