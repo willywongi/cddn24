@@ -223,7 +223,7 @@ DRAMATIQ_RESULT_BACKEND = {
 }
 
 ROLLBAR = {
-    "access_token": "e46e8e633d8b48a588566417a9016dab",
+    "access_token": os.environ.get("ROLLBAR_ACCESS_TOKEN"),
     "environment": os.environ["ENV_NAME"],
     "code_version": os.environ.get("CODE_VERSION", "0.0"),
     "root": BASE_DIR,
