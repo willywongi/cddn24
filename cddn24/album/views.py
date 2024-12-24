@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.forms import Form, EmailField
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 
@@ -29,7 +30,13 @@ def claim(request):
 
     else:
         form = ClaimForm()
+    force_theme = request.session.get("force_theme", None)
+    if force_theme in {"dark", "light"}:
+        data_bs_theme = f"data-bs-theme=\"{force_theme}\""
+    else:
+        data_bs_theme = ""
     context = {
+        "data_bs_theme": data_bs_theme,
         "form": form,
         "total": Album.objects.count(),
         "claimed": Album.objects.filter(request_by__isnull=False).count(),
@@ -54,7 +61,7 @@ def validate(request, signature):
     token = request.GET.get("token")
     if not default_token_generator.check_token(album, token):
         return redirect("not_valid", signature)
-    build_album.send(album.seed)
+    build_album.send(album.seed, request.build_absolute_uri())
     context = {
         "seed": album.seed,
     }
@@ -95,3 +102,10 @@ def read(request, signature):
         } for i, ((tool, title, prompt), path) in enumerate(zip(tracks, sorted(album.path.glob("*.mp3"))))]
     }
     return TemplateResponse(request, template, context)
+
+
+def set_theme(request):
+    theme = request.POST.get("theme")
+    if theme in {"light", "dark"}:
+        request.session["force_theme"] = theme
+    return HttpResponse(status=204)

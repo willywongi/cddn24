@@ -12,7 +12,7 @@ from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import SystemMessage
 from azure.ai.inference.models import UserMessage
 from azure.core.credentials import AzureKeyCredential
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_admins
 from django.template.loader import get_template
 from django.contrib.staticfiles import finders
 from django.urls import reverse
@@ -254,7 +254,7 @@ def build_cover(seed: int) -> Optional[Exception]:
 
 
 @dramatiq.actor
-def build_album(seed: int, force=False):
+def build_album(seed: int, base_url: str, force=False):
     album = Album.objects.get(seed=seed)
     base_path = album.path
     base_path.mkdir(exist_ok=True)
@@ -285,14 +285,19 @@ def build_album(seed: int, force=False):
     album.status = Album.Status.FINISHED
     album.save()
 
-    if album.error is None:
+    if album.error:
+        mail_admins(f"Il CD di Natale 2024 {album.seed}: errore",
+                    message=f"La registrazione del CD di Natale 2024 {album.seed} non è andata a buon fine:\n{album.error} ")
+    else:
+        play_urlpath = reverse("play", args=(album.signature,))
         send_mail(f"Il tuo CD di Natale 2024: {album.seed}",
                   "",
                   from_email=None,
                   recipient_list=[album.request_by],
                   fail_silently=False,
                   html_message=get_template("album/ready.mjml").render(
-                      {"seed": album.seed, "play_url": reverse("play", args=(album.signature, ))}), )
+                      {"seed": album.seed, "play_url": f"{base_url.rstrip('/')}{play_urlpath}"}),
+                  )
 
 
 @dramatiq.actor
@@ -302,7 +307,7 @@ def send_validation_message(pk, base_url):
     token = default_token_generator.make_token(album)
     context = {
         "signature": album.signature,
-        "validate_url": f"{base_url}{validate_url}?token={token}",
+        "validate_url": f"{base_url.rstrip("/")}{validate_url}?token={token}",
         "seed": album.seed
     }
     send_mail(
