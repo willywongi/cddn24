@@ -10,6 +10,7 @@ urlpatterns = [
     path("<signature>/validate", album.views.validate, name="validate"),
     path("<signature>/not-valid", album.views.not_valid, name="not_valid"),
     path("<signature>/play", album.views.read, name="play"),
+    path("set-theme", album.views.set_theme, name="set_theme"),
 ]
 
 if settings.DEBUG:

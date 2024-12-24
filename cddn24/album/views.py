@@ -30,13 +30,7 @@ def claim(request):
 
     else:
         form = ClaimForm()
-    force_theme = request.session.get("force_theme", None)
-    if force_theme in {"dark", "light"}:
-        data_bs_theme = f"data-bs-theme=\"{force_theme}\""
-    else:
-        data_bs_theme = ""
     context = {
-        "data_bs_theme": data_bs_theme,
         "form": form,
         "total": Album.objects.count(),
         "claimed": Album.objects.filter(request_by__isnull=False).count(),
