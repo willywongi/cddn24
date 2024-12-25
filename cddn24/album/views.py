@@ -88,6 +88,7 @@ def read(request, signature):
         "seed": album.seed,
         "signature": album.signature,
         "cover_url": f"{settings.MEDIA_URL}/{album.path.relative_to(settings.MEDIA_ROOT)}/00_cover.png",
+        "story_content": next(path for path in album.path.glob("*.txt")).read_text(),
         "tracks": [{
             "no": i + 1,
             "title": title,
