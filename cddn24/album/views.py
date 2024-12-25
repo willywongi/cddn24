@@ -3,6 +3,7 @@ from django.forms import Form, EmailField
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
+from pydub import AudioSegment
 
 from album.models import Album
 from album.tasks import build_album, TRACKS
@@ -92,7 +93,7 @@ def read(request, signature):
             "title": title,
             "tool": tool,
             "url": f"{settings.MEDIA_URL}{path.relative_to(settings.MEDIA_ROOT)}",
-            "prompt": prompt
+            "prompt": prompt,
         } for i, ((tool, title, prompt), path) in enumerate(zip(tracks, sorted(album.path.glob("*.mp3"))))]
     }
     return TemplateResponse(request, template, context)

@@ -34,8 +34,10 @@ $display-font-family: 'Aclonica', sans-serif;
 @import "bootstrap/navbar";
 @import "bootstrap/offcanvas";
 @import "bootstrap/reboot";
+@import "bootstrap/tables";
 @import "bootstrap/type";
 @import "bootstrap/transitions";
+@import "bootstrap/tooltip";
 @import "bootstrap/utilities";
 
 
@@ -47,4 +49,8 @@ $display-font-family: 'Aclonica', sans-serif;
 
 h1, h2, h3 {
   font-family: $display-font-family;
+}
+
+body {
+  min-height: 100vh;
 }

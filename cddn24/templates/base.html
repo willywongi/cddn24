@@ -15,9 +15,11 @@
 <body>
 
 <main class="container">
+  {% block container %}
   <section class="d-grid vh-100 justify-content-center align-items-center">
     {% block main %}{% endblock %}
   </section>
+  {% endblock %}
 </main>
 
 
