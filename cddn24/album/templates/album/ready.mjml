@@ -17,7 +17,7 @@
         <mj-text>
           Buon ascolto, buone feste e ci sentiamo con l'anno nuovo!
         </mj-text>
-        <mj-text color="#222" font-weight="900" line-height="5px">
+        <mj-text color="#222" font-weight="900">
           Il team di Nerdsopolis
         </mj-text>
       </mj-column>
