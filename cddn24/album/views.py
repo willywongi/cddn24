@@ -1,9 +1,10 @@
+import zipfile
+
 from django.conf import settings
 from django.forms import Form, EmailField
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
-from pydub import AudioSegment
 
 from album.models import Album
 from album.tasks import build_album, TRACKS
@@ -98,6 +99,22 @@ def read(request, signature):
         } for i, ((tool, title, prompt), path) in enumerate(zip(tracks, sorted(album.path.glob("*.mp3"))))]
     }
     return TemplateResponse(request, template, context)
+
+
+def download(request, signature):
+    album = get_object_or_404(Album, signature=signature)
+    if album.status != Album.Status.FINISHED:
+        return redirect("not_finished", signature)
+    response = HttpResponse(
+        headers={
+            "Content-Disposition": f"attachment; filename=CD-di-Natale-2024.{album.seed}.zip",
+        },
+        content_type="application/zip")
+    with zipfile.ZipFile(response, "w") as zip_file:
+        for path in album.path.glob("*"):
+            if path.is_file():
+                zip_file.write(path, arcname=path.name)
+    return response
 
 
 def set_theme(request):
