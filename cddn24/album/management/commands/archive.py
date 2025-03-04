@@ -20,9 +20,10 @@ class Command(BaseCommand):
         q = Q(status=Album.Status.FINISHED)
         if options["signature"]:
             q &= Q(signature=options["signature"])
+        album_count = Album.objects.filter(q).count()
         g = dramatiq.group(
             [archive.message(album.signature, str(options["out_dir_path"])) for album in Album.objects.filter(q)])
         g.run()
-        self.stdout.write(f"Start archiving albums ({Album.objects.filter(q).count()}).")
-        g.wait(timeout=10_000)
+        self.stdout.write(f"Start archiving albums ({album_count}).")
+        g.wait(timeout=25_000 * album_count)
         self.stdout.write(self.style.SUCCESS(f"Finished archiving albums in {options['out_dir_path']}."))
