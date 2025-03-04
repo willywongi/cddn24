@@ -327,11 +327,11 @@ def create_archive_for_album(album, out_file):
 
 
 @dramatiq.actor
-def archive(signature, out_dir_path: Path):
+def archive(signature, out_dir_path: str):
     album = Album.objects.get(signature=signature)
     if album.status != Album.Status.FINISHED:
         raise ValueError(f"Album {album.seed} is not finished yet")
-    out_file_path = (out_dir_path / f"CD-di-Natale-2024.{album.request_by.replace('@', '.at.')}.zip")
+    out_file_path = (Path(out_dir_path) / f"CD-di-Natale-2024.{album.request_by.replace('@', '.at.')}.zip")
     with out_file_path.open("wb") as out_file:
         create_archive_for_album(album, out_file)
     logger.info("[%s] Archive completed, file saved at %s", signature, out_file_path.absolute())
