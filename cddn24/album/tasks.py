@@ -1,8 +1,7 @@
 import errno
-import hashlib
 import logging
 import os
-import traceback
+import zipfile
 from pathlib import Path
 from typing import Optional
 
@@ -12,9 +11,9 @@ from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import SystemMessage
 from azure.ai.inference.models import UserMessage
 from azure.core.credentials import AzureKeyCredential
+from django.contrib.staticfiles import finders
 from django.core.mail import send_mail, mail_admins
 from django.template.loader import get_template
-from django.contrib.staticfiles import finders
 from django.urls import reverse
 from elevenlabs import Voice, VoiceSettings
 from elevenlabs.client import ElevenLabs
@@ -317,3 +316,22 @@ def send_validation_message(pk, base_url):
         fail_silently=False,
         html_message=get_template("album/validate.mjml").render(context),
     )
+
+
+def create_archive_for_album(album, out_file):
+    with zipfile.ZipFile(out_file, "w") as zip_file:
+        for path in album.path.glob("*"):
+            if path.is_file():
+                zip_file.write(path, arcname=path.name)
+    return out_file
+
+
+@dramatiq.actor
+def archive(signature, out_dir_path: Path):
+    album = Album.objects.get(signature=signature)
+    if album.status != Album.Status.FINISHED:
+        raise ValueError(f"Album {album.seed} is not finished yet")
+    out_file_path = (out_dir_path / f"CD-di-Natale-2024.{album.request_by.replace('@', '.at.')}.zip")
+    with out_file_path.open("wb") as out_file:
+        create_archive_for_album(album, out_file)
+    logger.info("[%s] Archive completed, file saved at %s", signature, out_file_path.absolute())

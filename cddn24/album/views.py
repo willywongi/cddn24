@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 
 from album.models import Album
-from album.tasks import build_album, TRACKS
+from album.tasks import build_album, TRACKS, create_archive_for_album
 from album.tokens import default_token_generator
 
 
@@ -110,10 +110,7 @@ def download(request, signature):
             "Content-Disposition": f"attachment; filename=CD-di-Natale-2024.{album.seed}.zip",
         },
         content_type="application/zip")
-    with zipfile.ZipFile(response, "w") as zip_file:
-        for path in album.path.glob("*"):
-            if path.is_file():
-                zip_file.write(path, arcname=path.name)
+    create_archive_for_album(album, response)
     return response
 
 
